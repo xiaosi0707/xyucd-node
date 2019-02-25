@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <link rel="shortcut icon" href="/assets/imgs/logo.ico" type="image/x-icon" />
+    <title>{{ block 'title' }} {{ /block }}</title>
+    <link rel="stylesheet" href="/assets/css/app.css">
+    <link rel="stylesheet" href="/lib/layui/css/layui.css">
+
+</head>
+<body>
+<script src="/assets/js/init.js"></script>
+{{ block 'header' }} {{ /block }}
+{{ block 'content' }} {{ /block }}
+{{ block 'footer' }} {{ /block }}
+<script src="/lib/layui/layui.all.js"></script>
+<script>
+    // 导航 显示/隐藏
+    var mybody = document.getElementsByTagName('body')[0];
+    var startX, startY, moveEndX, moveEndY, X, Y;
+    mybody.addEventListener('touchstart', function(e) {
+        // e.preventDefault();
+        var e = e || window.event
+        startX = e.touches[0].pageX;
+        startY = e.touches[0].pageY;
+    }, false);
+    mybody.addEventListener('touchmove', function(e) {
+        // e.preventDefault();
+        var e = e || window.event
+        moveEndX = e.changedTouches[0].pageX;
+        moveEndY = e.changedTouches[0].pageY;
+        X = moveEndX - startX;
+        Y = moveEndY - startY;
+        var top = document.documentElement.scrollTop || document.body.scrollTop || window.pageYOffset
+
+        if ( top <= 0 ) {
+            document.getElementById('banner').style.display = 'block'
+            document.getElementById('banner-mini').style.display = 'none'
+        }
+        // if( Math.abs(Y) > Math.abs(X) && Y > 0) {
+        //     // alert('乡下')
+        //         document.getElementById('banner').style.display = 'block'
+        //         document.getElementById('banner-mini').style.display = 'none'
+        // }
+        else if( Math.abs(Y) > Math.abs(X) && Y < 0 ) {// up
+            console.log('向上')
+            document.getElementById('banner').style.display = 'none'
+            document.getElementById('banner-mini').style.display = 'block'
+        }
+        else{//没有发生滑动
+            console.log('没有发生滑动');
+        }
+    })
+
+    // 层
+    var menu = document.getElementById('menu')
+    var close = document.getElementById('close')
+    var menuMini = document.getElementById('menu-mini')
+    var closeMini = document.getElementById('close-mini')
+    var mask = document.getElementById('mask')
+    var maskMini = document.getElementById('mask-mini')
+    if (menu) {
+        menu.onclick = function () {
+            mask.style.display = 'block'
+            mask.style.zIndex = 102
+        }
+    }
+    if (close) {
+        close.onclick = function () {
+            mask.style.display = 'none'
+            mask.style.zIndex = 100
+        }
+    }
+    if (menuMini) {
+        menuMini.onclick = function () {
+            maskMini.style.display = 'block'
+            maskMini.style.zIndex = 102
+        }
+    }
+    if (closeMini) {
+        closeMini.onclick = function () {
+            maskMini.style.display = 'none'
+            maskMini.style.zIndex = 100
+        }
+    }
+</script>
+</body>
+</html>
